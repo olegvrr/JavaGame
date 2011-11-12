@@ -12,8 +12,8 @@ import customapplication.*;
  */
 public class Pistol extends Weapon
 {
-    public Pistol(Location location, String name, int distance)
+    public Pistol(Location location, String name, int distance, WorldEntity owner)
     {
-        super(location, name, distance);
+        super(location, name, distance, owner);
     }
 }

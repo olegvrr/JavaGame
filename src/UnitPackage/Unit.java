@@ -5,6 +5,7 @@
 package UnitPackage;
 
 import WeaponPackage.*;
+import customapplication.GlobalVariables;
 import customapplication.Location;
 import customapplication.WorldEntity;
 
@@ -22,7 +23,7 @@ public abstract class Unit extends WorldEntity
         this.speed = speed;
         width = 30;
         height = 30;
-        weapon = new Pistol(location, name, 40);
+        weapon = new Pistol(location, name, 40, this);
     }
     
     protected String direction;
@@ -74,6 +75,7 @@ public abstract class Unit extends WorldEntity
         {
             location.setX(location.getX()+speed);
         }
+        globalLocation = Location.sum(GlobalVariables.getFormCoords(), location);
     }
 
     public void changeDirection(String newDirection)

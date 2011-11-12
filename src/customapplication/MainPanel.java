@@ -72,6 +72,9 @@ public class MainPanel extends FrameView implements ITimable
         worldEntities.add(wall1);
         worldEntities.add(player);
         picture = new Picture(worldEntities);     
+        GlobalVariables.addEntity(player);
+        GlobalVariables.addEntity(wall1);
+        GlobalVariables.addEntity(private1);
     }
     
     private void SubscribeEvents()
@@ -164,5 +167,11 @@ public class MainPanel extends FrameView implements ITimable
         }
         player.Move();
         form.repaint();
+    }
+    
+    @Override
+    public boolean IsActual()
+    {
+        return true;
     }
 }

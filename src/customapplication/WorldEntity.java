@@ -13,6 +13,8 @@ import java.awt.Shape;
  */
 public abstract class WorldEntity
 {
+    //
+    protected boolean isActual = true;
     protected int width;
     protected int height;
     protected Location location;
@@ -24,18 +26,29 @@ public abstract class WorldEntity
     
     protected WorldEntity(Location location, String name)
     {
-        this.location = location;
+        this.globalLocation = location;
+        this.location = Location.sub(location , GlobalVariables.getFormCoords());
         this.name = name;
     }
     
+    public boolean IsActual()
+    {
+        return isActual;
+    }
+    
     public Location getLocation()
+    {
+        return globalLocation;
+    }
+    public Location getFormLocation()
     {
         return location;
     }
     
     public void setLocation(Location location)
     {
-        this.location = location;
+        this.globalLocation = location;
+        this.location = Location.sub(location , GlobalVariables.getFormCoords());
     } 
     
     public Shape getPicture()

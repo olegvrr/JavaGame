@@ -47,5 +47,6 @@ public class Player extends Unit
     {
         super.Move();
         shape = new Ellipse2D.Float(location.getX(), location.getY(), 30, 30);
+        weapon.setLocation(location);
     }
 }

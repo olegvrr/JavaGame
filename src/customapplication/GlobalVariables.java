@@ -4,6 +4,7 @@
  */
 package customapplication;
 
+import CustomEvents.EntitiesCollidedEvent;
 import PicturePackage.Picture;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -124,10 +125,32 @@ public class GlobalVariables
         }
     }
     
+    public static void unsubscribeTimer(ITimable timableObject, int timerNo)
+    {
+        switch(timerNo)
+        {
+            case 1: timableObjects1.remove(timableObject);
+                break;
+            case 2: timableObjects2.remove(timableObject);
+                break;
+            case 3: timableObjects3.remove(timableObject);
+                break;
+            default: JOptionPane.showMessageDialog(form, "Wrong timer number. Suggested numbers: 1, 2, 3", "Big Brother watches over you!", 0);
+        }
+    }
+    
     private static void handleTimerTick1()
     {
         for(ITimable timableObject : timableObjects1)
             timableObject.handleTimerTick();
+        
+        for(WorldEntity visibleEntity : visibleEntities)
+        {
+            if(!visibleEntity.IsActual())
+            {
+            unsubscribeTimer((ITimable)visibleEntity, 1);
+            }
+        }
     }
     private static void handleTimerTick2()
     {
@@ -142,6 +165,6 @@ public class GlobalVariables
     //Global timer end.
     
     //Global events begin
-    
+    public static EntitiesCollidedEvent entitiesCollidedEvent = new EntitiesCollidedEvent("This is global event");
     //Global events end. 
 }

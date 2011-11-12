@@ -13,14 +13,16 @@ import customapplication.*;
 public abstract class Weapon extends WorldEntity
 {
     protected int distance;
-    public Weapon(Location location, String name, int distance)
+    protected WorldEntity owner;
+    public Weapon(Location location, String name, int distance, WorldEntity owner)
     {
         super(location, name);
         this.distance = distance;
+        this.owner = owner;
     }
     
     public void shot()
     {
-        PistolBullet ammu = new PistolBullet(new Location(location.getX(), location.getY()), distance);
+        PistolBullet ammu = new PistolBullet(new Location(location.getX(), location.getY()), distance, owner);
     }
 }

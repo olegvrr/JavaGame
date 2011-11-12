@@ -36,4 +36,15 @@ public class Location
     {
         this.y = y;
     }
+    
+    public static Location sum(Location l1, Location l2)
+    {
+        return new Location(l1.getX()+l2.getX(),l1.getY()+l2.getY());
+    }
+    
+    public static Location sub(Location l1, Location l2)
+    {
+        return new Location(l1.getX()-l2.getX(),l1.getY()-l2.getY());
+    }
+    
 }

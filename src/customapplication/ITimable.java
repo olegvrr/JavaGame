@@ -11,4 +11,5 @@ package customapplication;
 public interface ITimable
 {
     public abstract void handleTimerTick();
+    public boolean IsActual();
 }

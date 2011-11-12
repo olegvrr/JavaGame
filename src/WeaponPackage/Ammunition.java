@@ -4,6 +4,8 @@
  */
 package WeaponPackage;
 
+import CustomEvents.EntitiesCollidedEvent;
+import CustomEvents.IListener;
 import customapplication.CollusionChecker;
 import customapplication.GlobalVariables;
 import customapplication.ITimable;
@@ -14,9 +16,10 @@ import customapplication.WorldEntity;
  *
  * @author Oleg
  */
-public abstract class Ammunition extends WorldEntity implements ITimable
+public abstract class Ammunition extends WorldEntity implements ITimable, IListener<EntitiesCollidedEvent>
 {
     protected float velocity;
+    protected WorldEntity owner;
     protected int distance;
     protected String name;
     protected float mouseBufferX;
@@ -24,13 +27,15 @@ public abstract class Ammunition extends WorldEntity implements ITimable
     protected float deltaX = 0;
     protected float deltaY = 0;
     private boolean isDeltaCalcd = false;
-    protected Ammunition(Location location, String name, int distance)
+    protected Ammunition(Location location, String name, int distance, WorldEntity owner)
     {
         super(location,name);
         this.distance = distance;
+        this.owner = owner;
         GlobalVariables.getPicture().addEntity(this);
         // (mouseCoordsY - unitCoordsY) / (mouseCoordsX - unitCoordsX)
         GlobalVariables.subscribeTimer(this, 1);
+        GlobalVariables.entitiesCollidedEvent.addListener(this);
     }
     
     private boolean isDone = false;
@@ -186,10 +191,15 @@ public abstract class Ammunition extends WorldEntity implements ITimable
     {
         location.setX(location.getX()+deltaX);
         location.setY(location.getY()+deltaY);
+        globalLocation = Location.sum(GlobalVariables.getFormCoords(), location);
+        if(isActual)
+            CollusionChecker.checkCollusion(this, owner);  
         if(distance < 1)
+        {
+            isActual = false;
             GlobalVariables.getPicture().remEntity(this);
-        distance--;
-        CollusionChecker.checkCollusion(this);
+        }
+        distance--;  
     }
     
     @Override
@@ -197,5 +207,10 @@ public abstract class Ammunition extends WorldEntity implements ITimable
     {
         if (isDeltaCalcd)
         Move();
+    }
+    @Override
+    public void EntitiesCollided(EntitiesCollidedEvent evt)
+    {
+        isActual = false;
     }
 }
