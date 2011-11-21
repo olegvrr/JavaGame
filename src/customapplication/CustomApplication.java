@@ -4,15 +4,11 @@
  */
 package customapplication;
 
-import javax.swing.JFrame;
-import org.jdesktop.application.Application;
-import org.jdesktop.application.SingleFrameApplication;
-
 /**
  *
  * @author Oleg
  */
-public class CustomApplication extends SingleFrameApplication
+public class CustomApplication
 {
 
     /**
@@ -20,16 +16,7 @@ public class CustomApplication extends SingleFrameApplication
      */
     public static void main(String[] args)
     {
-        launch(CustomApplication.class, args);
+        MainPanel mainPanel = new MainPanel();
     }
 
-    public static CustomApplication getApplication() {
-        return Application.getInstance(CustomApplication.class);
-    }
-    
-    @Override
-    protected void startup()
-    {
-        show(new MainPanel(this));
-    }
 }

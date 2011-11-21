@@ -16,4 +16,10 @@ public class Pistol extends Weapon
     {
         super(location, name, distance, owner);
     }
+
+    @Override
+    public void EntitiesCollided()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

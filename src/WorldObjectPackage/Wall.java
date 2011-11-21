@@ -21,4 +21,10 @@ public class Wall extends WorldObject
         shape = new Rectangle2D.Float(location.getX() , location.getY(), width, height);
         color = Color.RED;
     }
+
+    @Override
+    public void EntitiesCollided()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

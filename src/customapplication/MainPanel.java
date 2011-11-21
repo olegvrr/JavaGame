@@ -7,37 +7,35 @@ package customapplication;
 import PicturePackage.Picture;
 import UnitPackage.*;
 import WorldObjectPackage.Wall;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
-import org.jdesktop.application.*;
 /**
  *
  * @author Oleg
  */
-public class MainPanel extends FrameView implements ITimable
+public class MainPanel implements ITimable
 {
+    //Form location according to global location
     Location location;
-    Picture picture;
-    ArrayList<WorldEntity> worldEntities = new ArrayList<WorldEntity>();
-    ArrayList<Unit> units = new ArrayList<Unit>();
-    JPanel form;
+    //Main container, all things are painted here
+    Picture picture;  
+    //Game field, contains picture declared above
+    JFrame form;
+    //Subjects for testing
     Private private1;
     Player player;
     Wall wall1;
-    public MainPanel(SingleFrameApplication app)
+    public MainPanel()
     {
-        super(app);
+        //Create testing subjects
         private1 = new Private("Vasja", new Location(150, 150), 10); 
         wall1 = new Wall(10, 20, new Location(50, 50), "Wall1");
         player = new Player("Player1", new Location(1200/2, 600/2), 5, 0);
         
         InitializeComponents();
         SubscribeEvents();
-        form.setFocusable(true);
-        form.setVisible(true);
-        form.setSize(1200,600);
-        form.setLocation(50,100);
 
         GlobalVariables.setFormSize(form.getWidth(), form.getHeight());
         launchTimer();
@@ -54,11 +52,20 @@ public class MainPanel extends FrameView implements ITimable
         form.repaint();
     }
     
+    /**Initiliaze main programm components */
     private void InitializeComponents()
     {
-        form = new javax.swing.JPanel();
-        form.setName("Form1");        
-        setComponent(form);
+        //Create container to draw on
+        picture = new Picture(); 
+        //Create game field
+        form = new javax.swing.JFrame();
+        form.setName("Form1");  
+        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        form.setFocusable(true);
+        form.setVisible(true);
+        form.setSize(1200,600);
+        form.setLocation(50,100);
+        //try to add it to globals
         try
         {
             GlobalVariables.setForm(form);
@@ -67,14 +74,11 @@ public class MainPanel extends FrameView implements ITimable
         {
             JOptionPane.showMessageDialog(form, ex.getMessage(), "Big Brother watches over you!", 0);
         }
-        worldEntities.add(private1);
-        units.add(private1);
-        worldEntities.add(wall1);
-        worldEntities.add(player);
-        picture = new Picture(worldEntities);     
-        GlobalVariables.addEntity(player);
-        GlobalVariables.addEntity(wall1);
-        GlobalVariables.addEntity(private1);
+        
+        //Testing entities
+        Entities.addVisibleEntity(player);
+        Entities.addVisibleEntity(wall1);
+        Entities.addVisibleEntity(private1);
     }
     
     private void SubscribeEvents()
@@ -90,10 +94,12 @@ public class MainPanel extends FrameView implements ITimable
     
     private void mousePressedHandler(java.awt.event.MouseEvent mEvt)
     {
-        GlobalVariables.mouseLocation = new Location(mEvt.getX(), mEvt.getY());
+        //Save mouse location
+        GlobalVariables.mouseLocation = new Location(mEvt.getX()-8, mEvt.getY()-30);
         player.shot();
     }
     
+    //To track pressed keys at this moment
     private ArrayList<String> keysPressed = new ArrayList<String>();
     private void keyPressedHandler(java.awt.event.KeyEvent evt)
     {
@@ -104,6 +110,7 @@ public class MainPanel extends FrameView implements ITimable
         checkDirection();
     }
     
+    //Moving logic for player
     private void checkDirection()
     {
         if (keysPressed.contains("w"))
@@ -140,7 +147,7 @@ public class MainPanel extends FrameView implements ITimable
             player.changeDirection("downLeft");
         }
         if(keysPressed.isEmpty())
-        player.changeDirection("stay");
+          player.changeDirection("stay");
     }
     
     private void keyReleasedHandler(java.awt.event.KeyEvent evt)
@@ -151,6 +158,7 @@ public class MainPanel extends FrameView implements ITimable
         checkDirection();
     }
     
+    //Timer to run "addComponents()" method
     java.util.Timer componentTimer = new java.util.Timer("Timer 1");
     private void launchTimer()
     {   
@@ -158,13 +166,10 @@ public class MainPanel extends FrameView implements ITimable
         GlobalVariables.subscribeTimer(this, 1);
     }
 
+    //ITimable methods begin
     @Override
     public void handleTimerTick()
     {
-        for (Unit unit : units)
-        {
-            unit.Move();
-        }
         player.Move();
         form.repaint();
     }
@@ -172,6 +177,8 @@ public class MainPanel extends FrameView implements ITimable
     @Override
     public boolean IsActual()
     {
+        //Basicly it's a stumb
         return true;
     }
+    //ITimable methods end
 }

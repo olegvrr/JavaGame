@@ -18,13 +18,13 @@ public class PistolBullet extends Ammunition
 {
     public PistolBullet(Location location, int distance, WorldEntity owner)
     {
-        super(location, "", distance, owner);
+        super(location, "7.92", distance, owner);
         width = 5;
         height = 5;
         velocity = 10;
-        name = "7.92";
         shape = new Ellipse2D.Float(location.getX()+5, location.getY()+5,width,height);
         color = Color.blue;
+        //add this object to the list of all objects
         GlobalVariables.getPicture().addEntity(this);
         calcDelta();
     }

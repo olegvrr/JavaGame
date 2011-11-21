@@ -7,7 +7,7 @@ package CustomEvents;
 import java.util.EventObject;
 
 /**
- *
+ * This Event will occur if any entity collided with any other
  * @author Oleg
  */
 public class EntitiesCollidedEvent extends EventObject
@@ -20,24 +20,26 @@ public class EntitiesCollidedEvent extends EventObject
     protected javax.swing.event.EventListenerList listenerList =
         new javax.swing.event.EventListenerList();
     
-    public void addListener(IListener listener)
+    //Subscribe
+    public void addListener(ICollidable listener)
     {
-        listenerList.add(IListener.class, listener);
+        listenerList.add(ICollidable.class, listener);
     }
-    public void remListener(IListener listener)
+    //Unsbscribe
+    public void remListener(ICollidable listener)
     {
-        listenerList.remove(IListener.class, listener);
+        listenerList.remove(ICollidable.class, listener);
     }
-    public void invokeEvent(EntitiesCollidedEvent evt) 
+    public void invokeEvent(ICollidable sender, ICollidable receiver) 
     {
         Object[] listeners = listenerList.getListenerList();
         // Each listener occupies two elements - the first is the listener class
         // and the second is the listener instance
         for (int i=0; i<listeners.length; i+=2)
         {
-            if (listeners[i]==IListener.class)
+            if (listeners[i]==ICollidable.class)
             {
-                ((IListener)listeners[i+1]).EntitiesCollided(evt);
+                ((ICollidable)listeners[i+1]).EntitiesCollided();
             }
         }
     }

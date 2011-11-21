@@ -5,15 +5,13 @@
 package UnitPackage;
 
 import WeaponPackage.*;
-import customapplication.GlobalVariables;
-import customapplication.Location;
-import customapplication.WorldEntity;
+import customapplication.*;
 
 /**
  *
  * @author Oleg
  */
-public abstract class Unit extends WorldEntity
+public abstract class Unit extends WorldEntity implements ITimable
 {
     protected Unit(String name, Location location, int speed)
     {

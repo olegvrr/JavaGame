@@ -8,7 +8,7 @@ import CustomEvents.EntitiesCollidedEvent;
 import PicturePackage.Picture;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,13 +18,13 @@ public class GlobalVariables
 {
         
     //Main Form begin
-    private static JPanel form;
-    public static JPanel getForm()
+    private static JFrame form;
+    public static JFrame getForm()
     {
         return form;
     }
     
-    public static void setForm(JPanel mainForm) throws Exception
+    public static void setForm(JFrame mainForm) throws Exception
     {
         if (form == null)
         form = mainForm;
@@ -79,21 +79,7 @@ public class GlobalVariables
         else
         throw new Exception("Picture is readonly!");
     }
-    private static ArrayList<WorldEntity> visibleEntities = new ArrayList<WorldEntity>();
-    public static ArrayList<WorldEntity> getVisibleEntities()
-    {
-        return visibleEntities;
-    }
-    public static void addEntity(WorldEntity entity)
-    {
-        visibleEntities.add(entity);
-        picture.addEntity(entity);
-    }
-    public static void remEntity(WorldEntity entity)
-    {
-        visibleEntities.remove(entity);
-        picture.remEntity(entity);
-    }
+    
     //Drawing Component end.
     
     //Global timer begin
@@ -103,7 +89,7 @@ public class GlobalVariables
     public static void initializeTimers()
     {
         timer1.schedule(new java.util.TimerTask(){public void run(){handleTimerTick1();}},1500, 30);
-        timer2.schedule(new java.util.TimerTask(){public void run(){handleTimerTick2();}},1500, 100);
+        timer2.schedule(new java.util.TimerTask(){public void run(){handleTimerTick2();}},1500, 6000);
         timer3.schedule(new java.util.TimerTask(){public void run(){handleTimerTick3();}},1500, 100);
     }
     
@@ -144,11 +130,14 @@ public class GlobalVariables
         for(ITimable timableObject : timableObjects1)
             timableObject.handleTimerTick();
         
-        for(WorldEntity visibleEntity : visibleEntities)
+        
+        //Collecting Garbage
+        for(WorldEntity visibleEntity : Entities.getVisibleEntities())
         {
             if(!visibleEntity.IsActual())
             {
-            unsubscribeTimer((ITimable)visibleEntity, 1);
+               unsubscribeTimer((ITimable)visibleEntity, 1);
+               visibleEntity = null;
             }
         }
     }
@@ -156,6 +145,14 @@ public class GlobalVariables
     {
         for(ITimable timableObject : timableObjects2)
             timableObject.handleTimerTick();
+        for(WorldEntity anyEntity : Entities.getAllEntities())
+        {
+            if(!anyEntity.IsActual())
+            {
+               unsubscribeTimer((ITimable)anyEntity, 1);
+               anyEntity = null;
+            }
+        }
     }
     private static void handleTimerTick3()
     {

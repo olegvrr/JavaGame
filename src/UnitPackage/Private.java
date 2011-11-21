@@ -25,5 +25,17 @@ public class Private extends Unit
         super.Move();
         shape = new Ellipse2D.Float(location.getX() , location.getY(), 30, 30);
     }
+
+    @Override
+    public void EntitiesCollided()
+    {
+        //Stumb
+    }
+
+    @Override
+    public void handleTimerTick()
+    {
+        //TODO: Call Move
+    }
     
 }

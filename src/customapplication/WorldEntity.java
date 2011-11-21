@@ -4,21 +4,26 @@
  */
 package customapplication;
 
+import CustomEvents.ICollidable;
 import java.awt.Color;
 import java.awt.Shape;
 
 /**
- *
+ * Bottom level of program's hierarchy
  * @author Oleg
  */
-public abstract class WorldEntity
+public abstract class WorldEntity implements ICollidable
 {
-    //
+    //Determines if this object needed in this program or not
     protected boolean isActual = true;
+    //Each object has it size
     protected int width;
     protected int height;
+    //Location according to the game field
     protected Location location;
+    //Location according to the whole world, lol
     protected Location globalLocation;
+    //Shape that visually represents entity
     protected Shape shape;
     protected boolean isVisible = true;
     protected Color color;
@@ -29,8 +34,11 @@ public abstract class WorldEntity
         this.globalLocation = location;
         this.location = Location.sub(location , GlobalVariables.getFormCoords());
         this.name = name;
+        //Every entity have to listen to the Entities Collided Event. This Event will occur if any enity collides with other
+        GlobalVariables.entitiesCollidedEvent.addListener(this);
     }
     
+    /**Determines if this object needed in this program or not */
     public boolean IsActual()
     {
         return isActual;

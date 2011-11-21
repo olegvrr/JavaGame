@@ -12,7 +12,9 @@ import customapplication.*;
  */
 public abstract class Weapon extends WorldEntity
 {
+    //How far bullets can be launched from this gun?
     protected int distance;
+    //Who own this gun, bro?
     protected WorldEntity owner;
     public Weapon(Location location, String name, int distance, WorldEntity owner)
     {

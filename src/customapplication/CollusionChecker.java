@@ -8,20 +8,20 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- *
+ * Static class which contains logic to check if sended object is collided with anything else
  * @author Oleg
  */
 public class CollusionChecker
 {
-    static boolean oneTime = false;
-    static float first;
+    /**
+     * 
+     * @param entity entity that invoked this method
+     * @param sender is entity that sent current entity, lol! (e.g. bullet sended by somebody, so sombody is the sender)
+     * @return boolean <- nuff' said
+     */
     public static boolean checkCollusion(WorldEntity entity, WorldEntity sender)
     {
-        if (entity.getLocation().getX() <= 150 && entity.globalLocation.getY() <= 150 && !oneTime)
-        {
-            oneTime = true;
-        }
-        for(WorldEntity worldEntity : GlobalVariables.getVisibleEntities())
+        for(WorldEntity worldEntity : Entities.getAllEntities())
         {
             if(worldEntity == sender)
                 continue;
@@ -29,8 +29,7 @@ public class CollusionChecker
             {
                 if((entity.globalLocation.getX() <= worldEntity.globalLocation.getX() + worldEntity.width) && (entity.globalLocation.getY() <= worldEntity.globalLocation.getY() + worldEntity.height))
                 {
-                    GlobalVariables.entitiesCollidedEvent.invokeEvent(GlobalVariables.entitiesCollidedEvent);
-                    oneTime = false;
+                    GlobalVariables.entitiesCollidedEvent.invokeEvent(entity, worldEntity);
                     return true;
                 }
             }

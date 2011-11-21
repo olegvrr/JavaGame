@@ -18,11 +18,12 @@ import javax.swing.JOptionPane;
 public class Picture extends JComponent
 {
     protected Graphics2D g2d;
-    private ArrayList<WorldEntity> worldEntities;
+    //Entites to draw
+    private ArrayList<WorldEntity> worldEntities = new ArrayList<WorldEntity>();
     
-    public Picture(ArrayList<WorldEntity> worldEntities)
+    public Picture()
     {
-        this.worldEntities = worldEntities;
+        //try to add this picture to the globals
         try
         {
             GlobalVariables.setPicture(this);
@@ -42,6 +43,7 @@ public class Picture extends JComponent
     {
         worldEntities.remove(entity);
     }
+    /** Method to draw any visible entity */
     @Override
     public void paint(Graphics g)
     {
@@ -57,6 +59,7 @@ public class Picture extends JComponent
       }
     }
     
+    //rubish, isn't it?
     public void paintAll()
     {
         for(WorldEntity worldEntity : worldEntities)

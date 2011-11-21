@@ -5,7 +5,8 @@
 package customapplication;
 
 /**
- *
+ * This interface created to specify behavior of an object which 
+ * can listen to the timer;
  * @author Oleg
  */
 public interface ITimable

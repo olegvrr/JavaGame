@@ -7,8 +7,6 @@ package UnitPackage;
 import customapplication.*;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +20,7 @@ public class Player extends Unit
     {
         super(name,location,speed);
         this.rank = rank;
+        //Relating on the players rank he will be represented with different shapes
         switch(rank)
         {
             case 0: shape = new Ellipse2D.Float(location.getX(), location.getY(), 30, 30);
@@ -48,5 +47,17 @@ public class Player extends Unit
         super.Move();
         shape = new Ellipse2D.Float(location.getX(), location.getY(), 30, 30);
         weapon.setLocation(location);
+    }
+
+    @Override
+    public void EntitiesCollided()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void handleTimerTick()
+    {
+        //Stumb
     }
 }

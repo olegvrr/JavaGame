@@ -5,7 +5,7 @@
 package WeaponPackage;
 
 import CustomEvents.EntitiesCollidedEvent;
-import CustomEvents.IListener;
+import CustomEvents.ICollidable;
 import customapplication.CollusionChecker;
 import customapplication.GlobalVariables;
 import customapplication.ITimable;
@@ -16,7 +16,7 @@ import customapplication.WorldEntity;
  *
  * @author Oleg
  */
-public abstract class Ammunition extends WorldEntity implements ITimable, IListener<EntitiesCollidedEvent>
+public abstract class Ammunition extends WorldEntity implements ITimable, ICollidable
 {
     protected float velocity;
     protected WorldEntity owner;
@@ -39,8 +39,10 @@ public abstract class Ammunition extends WorldEntity implements ITimable, IListe
     }
     
     private boolean isDone = false;
+    /** Magic method that calculates movement of the bullet across the field to the targeted point*/
     protected void calcDelta()
     {
+        //Load mouse location which was at the moment of mouse button pressed
         mouseBufferX = GlobalVariables.mouseLocation.getX();
         mouseBufferY = GlobalVariables.mouseLocation.getY(); 
         float lenghtX = Math.abs(mouseBufferX-location.getX());
@@ -187,6 +189,7 @@ public abstract class Ammunition extends WorldEntity implements ITimable, IListe
         return name;
     }
     
+    /** Method to move bullet */
     protected void Move()
     {
         location.setX(location.getX()+deltaX);
@@ -202,14 +205,17 @@ public abstract class Ammunition extends WorldEntity implements ITimable, IListe
         distance--;  
     }
     
+    //ITImable method
     @Override
     public void handleTimerTick()
     {
         if (isDeltaCalcd)
         Move();
     }
+    
+    //If bullet collided with some object, bullet should be deleted from the memory
     @Override
-    public void EntitiesCollided(EntitiesCollidedEvent evt)
+    public void EntitiesCollided()
     {
         isActual = false;
     }
